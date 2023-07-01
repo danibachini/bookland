@@ -4,6 +4,21 @@ import { useState } from 'react';
 
 export default function Form () {
     const [count, setCount] = useState(0);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [buttonName, setButtonName] = useState('Genre');
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const handleOptionSelect = (option) => {
+        setSelectedOption(option);
+        setButtonName(option);
+        setDropdownOpen(false);   // Close the dropdown after selecting an option
+        console.log("inside handleOptionsSelect");
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+        console.log("inside toggleDropdown");
+    };
 
     return (
     <>
@@ -12,19 +27,19 @@ export default function Form () {
 
                 <div className="pt-10 space-x-10 md:space-x-20">
                     <div className="dropdown dropdown-bottom columns-1">
-                        <label tabIndex={0} className="btn m-1 text-neutral-100">Genre</label>
-                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral-300">
-                            <li><a>🛸  Fiction</a></li>
-                            <li><a>🧑‍🎓  Nonfiction</a></li>
-                            <li><a>💑  Romance novel</a></li>
-                            <li><a>🔪  Horror</a></li>
-                            <li><a>🔍  Mystery</a></li>
-                            <li><a>⏳  Biography</a></li>
-                            <li><a>🎭  Poetry</a></li>
+                        <label tabIndex={0} className="btn m-1 w-52 text-neutral-100" onClick={toggleDropdown}>{buttonName}</label>
+                        <ul tabIndex={0} className={`dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral-300 ${dropdownOpen ? 'open' : ''}`}>
+                            <li><a onClick={() => handleOptionSelect('Fiction')}>🛸  Fiction</a></li>
+                            <li><a onClick={() => handleOptionSelect('Nonfiction')}>🧑‍🎓  Nonfiction</a></li>
+                            <li><a onClick={() => handleOptionSelect('Romance novel')}>💑  Romance novel</a></li>
+                            <li><a onClick={() => handleOptionSelect('Horror')}>🔪  Horror</a></li>
+                            <li><a onClick={() => handleOptionSelect('Mystery')}>🔍  Mystery</a></li>
+                            <li><a onClick={() => handleOptionSelect('Biography')}>⏳  Biography</a></li>
+                            <li><a onClick={() => handleOptionSelect('Poetry')}>🎭  Poetry</a></li>
                         </ul>
                     </div>
                 </div>
-            
+
                 <div className="form-control ">
                     <label className="label">
                         <span id="label-text">What kind of story would you like to read?</span>
@@ -36,7 +51,7 @@ export default function Form () {
                     </label>
                 </div>
 
-            </div>    
+            </div>
         </form>   
     </>
     )
