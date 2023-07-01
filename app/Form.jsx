@@ -1,58 +1,59 @@
-'use client';
+'use server';
 
-import { useState } from 'react';
+import { redirect } from "next/dist/server/api-utils";
+import TextArea from "./TextArea.jsx" 
 
-export default function Form () {
-    const [count, setCount] = useState(0);
-    const [selectedOption, setSelectedOption] = useState('');
-    const [buttonName, setButtonName] = useState('Genre');
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+export async function handleSubmit (event) {
+    'use server';
+    const 
+        genre= event.get('genre'), 
+        description  =event.get('description')
+    
+    console.log(genre, description);
 
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setButtonName(option);
-        setDropdownOpen(false);   // Close the dropdown after selecting an option
-        console.log("inside handleOptionsSelect");
-    };
+    // maintenant je pense qu'il faut save sur la base de donnée
+    // et puis rediriger vers la page de lecture
+    // and create a new page for the story
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-        console.log("inside toggleDropdown");
-    };
+    //example
+    // const id = await db.collection('stories').insertOne({
+    //     genre,
+    //     description
+    // });
+    // redirect('/stories/' + id);
+
+    // or, dont use server side rendering, and just use the client side rendering
+    // on form validation send data to api, return what got from openai
+    // and render all on client side once received
+}
+
+export default async function Form () {
+
 
     return (
-    <>
-        <form action="">
+        <form action={handleSubmit}>
             <div className="content-center max-w-md m-auto space-y-6">
-
-                <div className="pt-10 space-x-10 md:space-x-20">
-                    <div className="dropdown dropdown-bottom columns-1">
-                        <label tabIndex={0} className="btn m-1 w-52 text-neutral-100" onClick={toggleDropdown}>{buttonName}</label>
-                        <ul tabIndex={0} className={`dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral-300 ${dropdownOpen ? 'open' : ''}`}>
-                            <li><a onClick={() => handleOptionSelect('Fiction')}>🛸  Fiction</a></li>
-                            <li><a onClick={() => handleOptionSelect('Nonfiction')}>🧑‍🎓  Nonfiction</a></li>
-                            <li><a onClick={() => handleOptionSelect('Romance novel')}>💑  Romance novel</a></li>
-                            <li><a onClick={() => handleOptionSelect('Horror')}>🔪  Horror</a></li>
-                            <li><a onClick={() => handleOptionSelect('Mystery')}>🔍  Mystery</a></li>
-                            <li><a onClick={() => handleOptionSelect('Biography')}>⏳  Biography</a></li>
-                            <li><a onClick={() => handleOptionSelect('Poetry')}>🎭  Poetry</a></li>
-                        </ul>
-                    </div>
+                <div className="pt-10">
+                    <label className="label">What kind of story would you like to read?</label>
+                    <select name="genre" id="genre" className='menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral-300'>
+                        <option value="Genre">Select genre</option>
+                        <option value="Fiction">🛸  Fiction</option>
+                        <option value="Nonfiction">🧑‍🎓  Nonfiction</option>
+                        <option value="Romance novel">💑  Romance novel</option>
+                        <option value="Horror">🔪  Horror</option>
+                        <option value="Mystery">🔍  Mystery</option>
+                        <option value="Biography">⏳  Biography</option>
+                        <option value="Poetry">🎭  Poetry</option>
+                    </select>
                 </div>
 
-                <div className="form-control ">
-                    <label className="label">
-                        <span id="label-text">What kind of story would you like to read?</span>
-                    </label>
-                    <textarea id="textBox" className="textarea textarea-bordered h-24 text-neutral-100" maxLength={100} placeholder="A person solving the mystery of the Illuminati" onChange={e => setCount(e.target.value.length)}></textarea>
-                    <label className="label">
-                    <span className="label-text-alt"/>
-                    <span className="label-text-alt">{count}/100</span>
-                    </label>
+                <TextArea name={"description"}/>
+
+                <div className="form-control">
+                    <button className="btn btn-primary" type="submit">Submit</button>
                 </div>
 
             </div>
-        </form>   
-    </>
+        </form>
     )
 }
