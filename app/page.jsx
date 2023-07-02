@@ -15,4 +15,18 @@ export default function Home() {
 }
 
 
+// dropdown fireship 
+// https://www.youtube.com/watch?v=IF6k0uZuypA&ab_channel=Fireship
+
+// Article: Comment utiliser l'API de ChatGPT ? Le tutoriel complet
+// https://www.commentcoder.com/api-chatgpt/
+
+// Video: Boost Your Next.js Project with OpenAI: Step-by-Step Tutorial for Beginners
+// https://www.youtube.com/watch?v=2xwv4T552lM&ab_channel=JamesQQuick
+
+// OpenAI API keys
+// https://platform.openai.com/account/api-keys
+
+// npm OpenAI Node.js Library
+// https://www.npmjs.com/package/openai
 

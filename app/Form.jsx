@@ -1,58 +1,68 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 
 export default function Form () {
     const [count, setCount] = useState(0);
-    const [selectedOption, setSelectedOption] = useState('');
-    const [buttonName, setButtonName] = useState('Genre');
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setButtonName(option);
-        setDropdownOpen(false);   // Close the dropdown after selecting an option
-        console.log("inside handleOptionsSelect");
-    };
-
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-        console.log("inside toggleDropdown");
-    };
 
     return (
     <>
         <form action="">
             <div className="content-center max-w-md m-auto space-y-6">
 
-                <div className="pt-10 space-x-10 md:space-x-20">
-                    <div className="dropdown dropdown-bottom columns-1">
-                        <label tabIndex={0} className="btn m-1 w-52 text-neutral-100" onClick={toggleDropdown}>{buttonName}</label>
-                        <ul tabIndex={0} className={`dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral-300 ${dropdownOpen ? 'open' : ''}`}>
-                            <li><a onClick={() => handleOptionSelect('Fiction')}>🛸  Fiction</a></li>
-                            <li><a onClick={() => handleOptionSelect('Nonfiction')}>🧑‍🎓  Nonfiction</a></li>
-                            <li><a onClick={() => handleOptionSelect('Romance novel')}>💑  Romance novel</a></li>
-                            <li><a onClick={() => handleOptionSelect('Horror')}>🔪  Horror</a></li>
-                            <li><a onClick={() => handleOptionSelect('Mystery')}>🔍  Mystery</a></li>
-                            <li><a onClick={() => handleOptionSelect('Biography')}>⏳  Biography</a></li>
-                            <li><a onClick={() => handleOptionSelect('Poetry')}>🎭  Poetry</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <Dropdown/>
 
                 <div className="form-control ">
                     <label className="label">
                         <span id="label-text">What kind of story would you like to read?</span>
                     </label>
-                    <textarea id="textBox" className="textarea textarea-bordered h-24 text-neutral-100" maxLength={100} placeholder="A person solving the mystery of the Illuminati" onChange={e => setCount(e.target.value.length)}></textarea>
+                    <textarea id="textBox" className="textarea textarea-bordered h-24 text-neutral-100" maxLength={100} placeholder="A person solving the mystery of the Illuminati"></textarea>
                     <label className="label">
                     <span className="label-text-alt"/>
                     <span className="label-text-alt">{count}/100</span>
                     </label>
                 </div>
 
+                <div className="form-control">
+                    <button className="btn hover:text-neutral-100" type="submit">Submit</button>
+                </div>
+
             </div>
         </form>   
     </>
+    )
+}
+
+function Dropdown() {
+    const [activeMenu, setActiveMenu] = useState('main'); 
+    const [open, setOpen] = useState(false);
+    const [buttonName, setButtonName] = useState('Genre');
+
+    function DropdownItem(props) {
+        return (
+            <a href="#" className='menu-item' onClick={() => setButtonName(props.value) && props.goToMenu && setActiveMenu(props.goToMenu)}>
+                {props.children}
+            </a>
+        )
+    }
+
+    return (
+        <div className="pt-10 space-x-10 md:space-x-20">
+            <div className='dropdown dropdown-bottom columns-1'>
+                <label tabIndex={0} className="btn m-1 w-52 text-neutral-100">{ buttonName }</label>
+                    <div className='menu' onClick={() => setOpen(!open)}>
+                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral-100" >
+                            <DropdownItem value="Fiction">🛸 Fiction</DropdownItem>
+                            <DropdownItem value="Nonfiction">🧑‍🎓 Nonfiction</DropdownItem>
+                            <DropdownItem value="Romance novel">💑 Romance novel</DropdownItem>
+                            <DropdownItem value="Horror">🔪 Horror</DropdownItem>
+                            <DropdownItem value="Mystery">🔍 Mystery</DropdownItem>
+                            <DropdownItem value="Biography">⏳ Biography</DropdownItem>
+                            <DropdownItem value="Poetry">🎭 Poetry</DropdownItem>
+                        </ul>
+                    </div>
+            </div>
+        </div>
     )
 }
