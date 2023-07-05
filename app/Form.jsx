@@ -3,15 +3,48 @@
 import { useState } from 'react';
 
 export default function Form () {
-    const [count, setCount] = useState(0);
+    const [buttonName, setButtonName] = useState('Genre');
+    const [text, setText] = useState('');
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log(buttonName, text);
+    // }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(buttonName, text);
+    
+        try {
+            console.log("inside try");
+            const response = await fetch('/api/story', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ buttonName, text }),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            } else {
+                console.log('Server Error:', response.status);
+            }
+        } catch (error) {
+        console.log('Error:', error);
+        }
+    };
+
+    
 
     return (
     <>
-        <form action="">
+        <form onSubmit={handleSubmit}>
             <div className="content-center max-w-md m-auto space-y-6">
 
                 {/* dropdown button component */}
-                <Dropdown/>
+                <Dropdown buttonName={buttonName} setButtonName={setButtonName}/>
 
                 <div className="form-control ">
                     {/* input for user type the story they want to read */}
@@ -20,12 +53,12 @@ export default function Form () {
                         className="textarea textarea-bordered h-36 text-neutral-100" 
                         maxLength={100} 
                         placeholder="What kind of story would you like to read?  e.g. 'A person solving the mystery of the Illuminati'" 
-                        onChange={e => setCount(e.target.value.length)}
+                        onChange={e => setText(e.target.value)}
                         required>
                     </textarea>
                     <label className="label">
                         <span className="label-text-alt"/>
-                        <span className="label-text-alt">{count}/100</span>
+                        <span className="label-text-alt font-semibold text-gray-900">{text.length}/100</span>
                     </label>
                 </div>
 
@@ -40,10 +73,9 @@ export default function Form () {
     )
 }
 
-function Dropdown() {
+function Dropdown({ buttonName, setButtonName }) {
     const [activeMenu, setActiveMenu] = useState('main'); 
     const [open, setOpen] = useState(false);
-    const [buttonName, setButtonName] = useState('Genre');
 
     function DropdownItem(props) {
         return (
