@@ -6,37 +6,22 @@ export default function Form () {
     const [buttonName, setButtonName] = useState('Genre');
     const [text, setText] = useState('');
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log(buttonName, text);
-    // }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(buttonName, text);
-    
-        try {
-            console.log("inside try");
-            const response = await fetch('/api/story', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ buttonName, text }),
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            } else {
-                console.log('Server Error:', response.status);
-            }
-        } catch (error) {
-        console.log('Error:', error);
-        }
-    };
 
-    
+        const response = await fetch(`/api/story`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", // Set the content type to JSON
+            },
+            body: JSON.stringify({ buttonName, text }),
+        });
+
+        const result = await response.json();
+        console.log("Success:", result);
+
+        console.log("Data sent to API: ", JSON.stringify({ buttonName, text }));
+    };
 
     return (
     <>
