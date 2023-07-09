@@ -6,21 +6,21 @@ export default function Form () {
     const [buttonName, setButtonName] = useState('Genre');
     const [text, setText] = useState('');
 
+    // send the data to route
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const response = await fetch(`/api/story`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json", // Set the content type to JSON
+                "Content-Type": "application/json", // set the content type to JSON
             },
             body: JSON.stringify({ buttonName, text }),
         });
 
         const result = await response.json();
-        console.log("Success:", result);
+        console.log("Response from server:", result);
 
-        console.log("Data sent to API: ", JSON.stringify({ buttonName, text }));
     };
 
     return (
