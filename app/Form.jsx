@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Form () {
     const [buttonName, setButtonName] = useState('Genre');
     const [text, setText] = useState('');
+    const router = useRouter();
 
     // send the data to route
     const handleSubmit = async (e) => {
@@ -20,7 +22,23 @@ export default function Form () {
 
         const result = await response.json();
         console.log("Response from server:", result);
+        console.log("right after push");
 
+        if (result.message == "Success") {
+            console.log("inside success message");
+            // redirect to the books' page with the API response as a query parameter
+            // console.log("got the result, let's send it to books");
+            // router.push(`/books/page?response=${result.data}`); 
+            const reqResult = result.reqResult;
+            console.log("checking reqResult back in the form: ", reqResult);
+            router.push({
+                pathname: '/books/page',
+                // query: { response: JSON.stringify(reqResult) },
+            });
+        } else {
+            console.log("got into the if Error");
+            // return err;
+        }
     };
 
     return (
