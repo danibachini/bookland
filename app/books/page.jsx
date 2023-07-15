@@ -1,40 +1,31 @@
 
+'use client'
 
-export default function BooksPage({ response }) {
-    const reqResult = JSON.parse(response);
-    console.log("what arrived at the page books: ", reqResult);
-    return (
+
+
+export default async function BooksPage() {
+  console.log("arrived at books");
+  const response = await window.localStorage.getItem("reqResult");
+  console.log("this is response: ", response);
+  console.log("response type: ", typeof response);
+  const booksList = JSON.parse(response);
+  console.log("this is the booksList: ", booksList);
+
+  if (!booksList) {
+    return <div>Loading...</div>; // or any other loading indicator
+  }
+  
+  return (
+    <div>
+      {booksList.map((book) => (
         <div>
-            <h1>Book Page</h1>
-            <p>API Response: {reqResult}</p>
+          <h2>{book.title}</h2>
+          <p>{book.description}</p>
         </div>
-    );
-    // ...
-};
-
-  
-BooksPage.getInitialProps = async ({ query }) => {
-    const response = query.response || null;
-    return { response };
-};
-  
-  
+      ))}
+    </div>
+  );
+}
 
 
 
-// export default function BooksPage({ response }) {
-//     console.log("the result arrived at books", response);
-//     return (
-//       <div>
-//         <h1>Book Page</h1>
-//         <p>API Response: {response}</p>
-//         {/* other stuff */}
-//       </div>
-//     );
-//   };
-  
-//   BooksPage.getInitialProps = ({ response }) => {
-//     return { response };
-//   };
-  
-  
