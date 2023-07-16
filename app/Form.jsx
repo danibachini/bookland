@@ -2,26 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
 
 export default function Form () {
     const [buttonName, setButtonName] = useState('Genre');
     const [text, setText] = useState('');
     const router = useRouter();
-    const pathname = usePathname();
     
     // send the data to route
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const response = JSON.stringify({buttonName, text});
-        // console.log("this is the response: ", response);
-        // router.push({
-        //     pathname: '/books',
-        //     query: { response },
-        // });
-
-        // await fetch(`/api/story`, {
         const response = await fetch(`/api/story`, {
             method: "POST",
             headers: {
@@ -31,49 +21,14 @@ export default function Form () {
             cache: 'force-cache',
         });
             
-        // router.push('/books'); // send user to books page
-
-        // if (response) {
-        //     console.log(response);
-        //     router.push('/books');
-        // };
-
-        // if (!response) {
-        //     console.log(response);
-        //     throw new Error('Failed to fetch data')
-        // };
-
-
         const result = await response.json();
         console.log("Response from server:", result);
 
-        // router.push({
-        //     pathname:'/books',
-            
-        // })
-
-
-
-
-        // console.log("right after push");
-
         if (result.message == "Success") {
             console.log("inside success message");
-            window.localStorage.setItem("reqResult", JSON.stringify(result.reqResult));
+            window.localStorage.setItem("reqResult", JSON.stringify(result.reqResult.replace(/(\r\n|\n|\r)/gm, "").replace("  \\", "\\")));
             router.push("/books");
-            
-            // redirect to the books' page with the API response as a query parameter
-            // console.log("got the result, let's send it to books");
-            // router.push(`/books/page?response=${result.data}`); 
-            // const reqResult = result.reqResult;
-            // console.log("checking reqResult back in the form: ", reqResult);
-            // // router.push('/books');
-            // router.push({
-            //     pathname: '/books',
-            //     query: { reqResult },
-            //     // query: { response: JSON.stringify(reqResult) },
-            // })
-
+   
         } else {
             console.log("got into the if Error");
             // return err;
