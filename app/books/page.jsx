@@ -15,7 +15,7 @@ export default async function BooksPage() {
   }, [])
   
   return (
-    <div className="rounded bg-orange-950 px-10 pb-4 md:px-20 h-3/4 md:w-9/12 m-auto text-orange-100">
+    <div className="rounded bg-orange-950 px-10 pb-8 md:px-20 h-3/4 md:w-9/12 m-auto text-orange-100">
       <div className="flex justify-center md:justify-end">
         <Link href="/">
           <button 
@@ -25,6 +25,8 @@ export default async function BooksPage() {
           </button>
         </Link>
       </div>
+
+      <h1 className="text-center py-16 md:text-4xl text-3xl text-orange-200 font-semibold">Best Matches For You</h1>
 
       {books.map((book, index) => (
         <div key={index} className="py-4 md:py-6">
