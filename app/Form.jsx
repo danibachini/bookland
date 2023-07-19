@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// import Error from './global-error';
 
 export default function Form () {
     const [buttonName, setButtonName] = useState('Genre');
@@ -14,6 +13,7 @@ export default function Form () {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true); // set the loading spinner once the button is clicked
+        localStorage.clear();  // make sure localstorage is empty so it doesn't use old data in case the API fails
 
         const response = await fetch(`/api/story`, {
             method: "POST",
@@ -26,27 +26,15 @@ export default function Form () {
             
         const result = await response.json();
 
-        // try {
-        //     if (result.message == "Success") {
-        //         console.log("inside success message");
-        //         window.localStorage.setItem("reqResult", JSON.stringify(result.reqResult.replace(/(\r\n|\n|\r)/gm, "").replace("  \\", "\\")));  // replace is needed due to how the response comes from chatgpt's API
-        //         router.push("/books");
-        //     }
-        // } catch (err) {
-        //     return err;
-        // }
-
+        // if API works properly, save the response in localstorage
         if (result.message == "Success") {
-            console.log("inside success message");
+            console.log("FORM - saving in localstorage");
             window.localStorage.setItem("reqResult", JSON.stringify(result.reqResult.replace(/(\r\n|\n|\r)/gm, "").replace("  \\", "\\")));  // replace is needed due to how the response comes from chatgpt's API
-            router.push("/books");
-   
-        } else if (!result) {
-            console.log("got into the if Error");
-            // const err = result.message;
-            return  Error;
-            // router.push(Error);
         }
+
+        console.log("FORM - right before push", result.reqResult);
+        router.push("/books");  // redirects user to page /books
+        
     };
 
     return (
@@ -72,7 +60,7 @@ export default function Form () {
                         </textarea>
                         <label className="label">
                             <span className="label-text-alt"/>
-                            <span className="label-text-alt  text-orange-200 font-light">{text.length}/100</span>
+                            <span className="label-text-alt text-orange-200 font-light">{text.length}/100</span>
                         </label>
                     </div>
 
