@@ -9,11 +9,11 @@ export async function POST(req) {
       const completion = await openai.createCompletion({
         model: "text-davinci-003",
         temperature: 0.6,
-        prompt: `You're a specialist in books. Give me a list of 2 books of the genre ${buttonName} and a story of ${text}.
-        Use up to 100 words per book (title and description included). 
+        prompt: `You're a specialist in books. Give me a list of 3 books of the genre ${buttonName} and a story of ${text}.
+        Use up to 100 words per book (title, author, and description included). 
         Do not include any explanations, only provide a RFC8259 compliant JSON response following this format without deviation.
-        {"books":[{"title":"title of the book","description":"description of the book"}]}`,
-        max_tokens: 1000,   // 15 tokens/word * 100 words/paragraph = 1,500 tokens/paragraph -> 1,500 tokens/paragraph * 5 paragraphs = 7,500 tokens
+        {"books":[{"title":"title of the book","author":"name of the author","description":"description of the book"}]}`,
+        max_tokens: 1000, 
       });
       
       const reqResult = completion.data.choices[0].text;  // extract the generated text from the OpenAI response

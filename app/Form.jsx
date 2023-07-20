@@ -28,11 +28,9 @@ export default function Form () {
 
         // if API works properly, save the response in localstorage
         if (result.message == "Success") {
-            console.log("FORM - saving in localstorage");
             window.localStorage.setItem("reqResult", JSON.stringify(result.reqResult.replace(/(\r\n|\n|\r)/gm, "").replace("  \\", "\\")));  // replace is needed due to how the response comes from chatgpt's API
         }
 
-        console.log("FORM - right before push", result.reqResult);
         router.push("/books");  // redirects user to page /books
         
     };
