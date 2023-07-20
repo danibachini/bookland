@@ -4,6 +4,9 @@
 
 This is a web application developed using the OpenAI API that provides book recommendations based on user input. The application allows users to select a genre (optional) and type in the kind of story they are looking to read (mandatory). It then uses the power of the OpenAI API to generate personalized book recommendations.
 
+#### Video Demo: 
+https://youtu.be/xN-m4J3gsrM
+
 
 ### Features
 - Dropdown button to select a genre (optional).
