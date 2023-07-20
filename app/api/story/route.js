@@ -17,16 +17,13 @@ export async function POST(req) {
       });
       
       const reqResult = completion.data.choices[0].text;  // extract the generated text from the OpenAI response
-      console.log("ROUTE - inside success", reqResult);
       return NextResponse.json({message: "Success", reqResult});
     }
     else {
-      console.log("ROUTE - inside failed");
       return NextResponse.json({message: "Failed"});
     }
     
   } catch (err) {
-    console.log("ROUTE - inside catch");
     return NextResponse.json({message: "Internal Server Error"});
   }
 
